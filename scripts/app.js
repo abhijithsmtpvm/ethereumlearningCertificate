@@ -6,7 +6,7 @@
 }
 
 window.onload = async () => {
-    let contractAddress = "0x196f89292227B1743c3EdbBEAb92eb1B5e137b9E"; // should be changed on each deployement
+    let contractAddress = "0x4C0c53fF3c7E9b166Ae075C207790515D7FA10f3"; // should be changed on each deployement
     let abi = [
         {
             "inputs": [
@@ -82,8 +82,10 @@ window.onload = async () => {
         }
     ]  // should be changed on each deployement
     
-    web3 = new web3(ethereum) // creating instance of web3,Second Web3 should be start with capital it denotes the web3 from cdn
-    MyContract = new web3.eth.contract(abi, contractAddress) // creating instance of contract with web3, web3.eth[module].contract(abi,address)
+    web3 = new Web3(ethereum); // creating instance of web3,Second Web3 should be start with capital it denotes the web3 from cdn
+    MyContract = new web3.eth.contract(abi, contractAddress) ;// creating instance of contract with web3, web3.eth[module].contract(abi,address)
+
+   
 }
 
 
@@ -98,6 +100,10 @@ async function issueCertificate(){
     console.log(trxReciept)
 };
 
-function getCertificate(){
+async function getCertificate(){
 
-}
+     let certificateID = document.getElementById("certificateID").value
+     let result = await MyContract.methods.certificates(certificateID).call() // this will fetch data from bc, call() is used  to view the data "certificateID" passing here is name of mapping from the smart contract
+    console.log(result)
+    localStorage.setItem('certificateID', certificateID )
+    }
